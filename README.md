@@ -12,6 +12,7 @@
 ![python: 3.11+](https://img.shields.io/badge/python-3.11%2B-blue)
 ![PDF: XeLaTeX](https://img.shields.io/badge/PDF-XeLaTeX-success)
 ![agents: MCP](https://img.shields.io/badge/agents-MCP-purple)
+![license: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-blue)
 
 <img src="docs/screens/light-2-paragraph.png" alt="LDE Studio: a paragraph opened from the PDF, inserts shown as chips" width="900">
 
@@ -184,5 +185,12 @@ Security issues: see [SECURITY.md](SECURITY.md).
 
 ## License
 
-A license has not been chosen yet. Until a `LICENSE` file is added, the code is published for reading
-and evaluation; please open an issue if you want to use it in your project.
+LDE is free software, licensed under the **GNU Affero General Public License v3.0 or later**
+([`LICENSE`](LICENSE)).
+
+In short: you may use, study, modify and share it. If you distribute a modified version, or run a
+modified version as a network service for others (for example, a modified `lde-server`), you must make
+its source code available under the same license. Documents you write with LDE are yours — the license
+does not apply to them.
+
+Bundled third-party components keep their own licenses (see above).
