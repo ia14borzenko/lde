@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LDE Studio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233b6ea8'/%3E%3Cpath d='M9 8h4v13h9v3H9z' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/vendor/mathlive/mathlive-static.css">
+<link rel="stylesheet" href="/static/app.css">
+<script src="/static/vendor/mathlive/mathlive.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <header id="top">
+    <button class="brand" id="brand" title="Проект: документы, открыть, недавние, закрыть" aria-haspopup="menu"><span class="logo">L</span><span id="proj-title">LDE Studio</span><span id="proj-doc" class="doc-tag" hidden></span><span class="caret">▾</span></button>
+    <button id="status-pill" class="author-only pill" hidden></button>
+    <button id="changes-btn" class="author-only pill ghost" hidden></button>
+    <button id="review-btn" class="author-only proj-only pill ghost" title="Примечания рецензента из Word">Примечания</button>
+    <div class="spacer"></div>
+    <span id="build-state" class="muted small"></span>
+    <button class="author-only icon-btn" id="undo-btn" data-proj title="Отменить последнее действие (Ctrl+Alt+Z; повторить — Ctrl+Alt+Shift+Z)" data-icon="undo"></button>
+    <button class="author-only icon-btn" id="history-btn" data-proj title="История и версии: сравнить, вернуть, сохранить версию" data-icon="clock"></button>
+    <button class="btn" id="export-pdf" data-proj title="Открыть PDF"><span data-icon="pdf"></span>PDF</button>
+    <button class="author-only btn" id="export-docx" data-proj title="Сохранить для Word (Ctrl+E)"><span data-icon="word"></span>Word</button>
+    <button class="author-only btn primary" id="submit-btn" data-proj title="Пересчитать, проверить, собрать PDF и DOCX">Сдать</button>
+    <button class="author-only icon-btn" id="open-folder" data-proj title="Открыть папку проекта" data-icon="folder"></button>
+    <button class="btn reviewer-only" id="help-btn" title="Как проверять документ">Как это работает</button>
+    <button class="icon-btn" id="theme-btn" title="Светлая/тёмная тема" data-icon="theme"></button>
+    <button class="author-only icon-btn" id="settings-btn" data-proj title="Настройки документа" data-icon="gear"></button>
+  </header>
+  <main id="main">
+    <aside id="side">
+      <nav id="tabs">
+        <button data-tab="mine" class="reviewer-only" title="Мои исправления и замечания"><span data-icon="list"></span><span>Мои правки</span></button>
+        <button data-tab="outline" class="on" title="Содержание"><span data-icon="list"></span><span>Разделы</span></button>
+        <button class="author-only" data-tab="objects" title="Рисунки, таблицы, формулы"><span data-icon="image"></span><span>Объекты</span></button>
+        <button class="author-only" data-tab="quantities" title="Величины"><span data-icon="sigma"></span><span>Величины</span></button>
+        <button class="author-only" data-tab="calcs" title="Расчёты"><span data-icon="calc"></span><span>Расчёты</span></button>
+        <button class="author-only" data-tab="sources" title="Источники"><span data-icon="book"></span><span>Источники</span></button>
+      </nav>
+      <div class="search"><input id="side-search" type="search" placeholder="Поиск" autocomplete="off"></div>
+      <div id="side-list"></div>
+      <div id="side-foot"></div>
+    </aside>
+    <div class="resizer" id="rs-left"></div>
+    <section id="doc">
+      <div id="pages"></div>
+      <div id="pages-r" hidden></div>
+      <div class="rv-label left rv-only">Сейчас у вас</div><div class="rv-label right rv-only">У рецензента</div>
+      <div id="zoom"><button class="icon-btn" id="zoom-out" title="Мельче (Ctrl −)">−</button><span id="zoom-val">100%</span><button class="icon-btn" id="zoom-in" title="Крупнее (Ctrl +)">+</button></div>
+      <div id="doc-empty" hidden></div>
+    </section>
+    <div class="resizer" id="rs-right" hidden></div>
+    <aside id="panel" hidden>
+      <div class="panel-head"><div><div id="panel-kind" class="muted small"></div><div id="panel-title"></div></div>
+        <button class="icon-btn" id="panel-close" title="Закрыть (Esc)" data-icon="close"></button></div>
+      <div id="panel-body"></div>
+      <div id="panel-foot"></div>
+    </aside>
+  </main>
+  <div id="start" hidden></div>
+  <div id="dialog-wrap" hidden><div id="dialog"></div></div>
+  <div id="dialog-wrap2" class="dlg2" hidden><div id="dialog2"></div></div>
+  <div id="toasts"></div>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>

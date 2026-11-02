@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# lde — запуск LDE v2 (Python-пакет lde/ в venv тулчейна). Без «заклинаний»: всё — через подкоманды.
+set -euo pipefail
+LDE_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
+PY="${LDE_PY:-$LDE_ROOT/toolchain/venv/bin/python}"
+if [ ! -x "$PY" ]; then
+  if [ "${1:-}" = "doctor" ]; then exec bash "$LDE_ROOT/toolchain/doctor.sh" "${@:2}"; fi
+  echo "LDE не установлен до конца: нет $PY. Запустите: $LDE_ROOT/bin/lde doctor --fix" >&2
+  exit 2
+fi
+export PYTHONPATH="$LDE_ROOT${PYTHONPATH:+:$PYTHONPATH}"
+exec "$PY" -m lde "$@"

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Панель — LDE</title><link rel="stylesheet" href="/static/app.css">
+<script src="/static/crypto.js"></script></head>
+<body>
+<header id="top"><div class="brand"><span class="logo">L</span>Сервер LDE</div><div class="spacer"></div>
+  <span id="who" class="muted small"></span><button class="btn" id="logout" hidden>Выйти</button></header>
+<div class="wrap">
+  <section class="section" id="login" hidden>
+    <h2>Вход</h2>
+    <form id="lf"><input class="inp" id="lu" placeholder="имя" autocomplete="username" required>
+      <input class="inp" id="lp" type="password" placeholder="пароль" autocomplete="current-password" required>
+      <button class="btn primary" id="lgo">Войти</button> <span id="lmsg" class="err"></span></form>
+  </section>
+  <div id="main" hidden>
+    <section class="section"><h2>Ссылки на документы</h2><div id="shares" class="muted">…</div>
+      <p class="muted small">Ссылки создаются в LDE Studio («Поделиться») или командой <code>lde share new</code>.</p></section>
+    <section class="section"><h2>Проекты</h2><div id="projects" class="muted">…</div>
+      <p class="muted small">Опубликовать проект: <code>lde push</code> или «Синхронизировать» в Studio.</p></section>
+    <section class="section" id="admin" hidden><h2>Приглашения</h2>
+      <div class="row"><input class="inp" id="inote" placeholder="для кого (заметка)" style="max-width:320px">
+        <label class="check"><input type="checkbox" id="iadm"> администратор</label>
+        <button class="btn" id="inew">Создать приглашение</button></div><div id="ilink"></div></section>
+    <section class="section"><h2>Устройства</h2><div id="devices"></div></section>
+  </div>
+</div>
+<div id="dlg-wrap" hidden><div id="dlg"></div></div>
+<div id="toasts"></div>
+<script src="/static/panel.js"></script>
+</body>
+</html>

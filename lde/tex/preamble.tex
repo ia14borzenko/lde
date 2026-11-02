@@ -1,0 +1,202 @@
+% ============================================================================
+% LDE v2 — преамбула ГОСТ 7.32-2017 (XeLaTeX). Генерируемый main.tex подключает её.
+% Параметры — со ссылками на пункты стандарта (docs/gost-requirements.md).
+% Пользователь и агент этот файл не правят: оформление задаётся профилем.
+% ============================================================================
+\documentclass[14pt,a4paper]{extarticle}
+
+\usepackage{fontspec}
+\IfFontExistsTF{Times New Roman}
+  {\setmainfont{Times New Roman}}
+  {\setmainfont{texgyretermes}[Extension=.otf,
+     UprightFont=*-regular, BoldFont=*-bold,
+     ItalicFont=*-italic, BoldItalicFont=*-bolditalic]}
+\IfFontExistsTF{Courier New}
+  {\setmonofont{Courier New}}
+  {\IfFontExistsTF{DejaVu Sans Mono}
+    {\setmonofont{DejaVu Sans Mono}}
+    {\setmonofont{texgyrecursor}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold]}}
+
+\usepackage{amsmath,mathtools}
+\usepackage{unicode-math}
+% индексы мельче, чем рассчитан шрифт (58 % против 74 %, см. ниже) — для обоих уровней индексов
+% берутся «индексные» начертания (ssty=0), а не «индекс индекса»
+\IfFontExistsTF{XITS Math}
+  {\setmathfont{XITS Math}[sscript-features={Style=MathScript}]}
+  {\setmathfont{texgyretermes-math.otf}[sscript-features={Style=MathScript}]}
+% Формулы — по правилам размеров MathType (как в отчётах, набранных в Word), а не TeX:
+% 1) числитель и знаменатель дроби — кеглем той строки, где стоит дробь (в тексте, в скобках,
+%    в ячейке матрицы — полного размера; в индексе — размера индекса). \tfrac — явная малая дробь.
+\NewCommandCopy{\ldetexfrac}{\frac}
+\RenewDocumentCommand{\frac}{mm}{\mathchoice
+  {\ldetexfrac{#1}{#2}}
+  {{\displaystyle\ldetexfrac{#1}{#2}}}
+  {\ldetexfrac{\scriptstyle #1}{\scriptstyle #2}}
+  {\ldetexfrac{\scriptscriptstyle #1}{\scriptscriptstyle #2}}}
+% 2) интегралы — наклонные; в выключной формуле — высокие (у Times-шрифта формул они прямые и
+%    короткие). Знак — из Latin Modern Math (тот же рисунок, что в редакторе формул Studio);
+%    высокий вариант берётся явно: при подмене шрифта через range XeTeX его не выбирает.
+\newcommand{\ldebigop}[2]{\mathop{\mathchoice
+  {\hbox{\ldeintfont\XeTeXglyph\XeTeXglyphindex "#2"\relax}}{#1}{#1}{#1}}\nolimits}
+\newcommand{\ldeslantints}{%
+  \setmathfont{latinmodern-math.otf}[range={"222B-"2233},sscript-features={Style=MathScript}]%
+  \newfontfamily\ldeintfont{latinmodern-math.otf}%
+  % unicode-math задаёт \int и др. в начале документа — переопределяем после него
+  \AtBeginDocument{%
+  \NewCommandCopy\ldetexint\int     \RenewDocumentCommand\int{}{\ldebigop{\ldetexint}{integral.v1}}%
+  \NewCommandCopy\ldetexiint\iint   \RenewDocumentCommand\iint{}{\ldebigop{\ldetexiint}{uni222C.v1}}%
+  \NewCommandCopy\ldetexiiint\iiint \RenewDocumentCommand\iiint{}{\ldebigop{\ldetexiiint}{uni222D.v1}}%
+  \NewCommandCopy\ldetexoint\oint   \RenewDocumentCommand\oint{}{\ldebigop{\ldetexoint}{contourintegral.v1}}}}
+\IfFontExistsTF{latinmodern-math.otf}{\ldeslantints}{}
+% 3) индексы — 58 %, индексы индексов — 42 % кегля строки (MathType); у шрифта формул — 74 и 55 %.
+%    unicode-math объявляет размеры только для основного кегля — снимаем, действует общее правило
+\renewcommand{\defaultscriptratio}{.58}
+\renewcommand{\defaultscriptscriptratio}{.42}
+\makeatletter\expandafter\let\csname S@\f@size\endcsname\relax\makeatother
+% кириллица в формулах набирается прямым текстовым шрифтом (LDE оборачивает её в \text)
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+
+% --- п. 6.1.1: поля 30/15/20/20 мм, интервал 1,5, отступ 1,25 см
+\usepackage{geometry}
+\geometry{a4paper,left=30mm,right=15mm,top=20mm,bottom=20mm,footskip=10mm,headsep=0mm}
+\usepackage{setspace}
+\onehalfspacing
+\setlength{\parindent}{1.25cm}
+% ручное оформление блоков ({style …}): исходные значения и крючки заголовков
+\newlength{\ldeparindent}\setlength{\ldeparindent}{\parindent}
+\edef\ldebasestretch{\baselinestretch}
+\newcommand{\ldeheadfont}{\bfseries}
+\newcommand{\ldeheadalign}{}
+\newcommand{\ldestructalign}{\centering}
+\newcommand{\ldeheadbefore}{}
+\setlength{\parskip}{0pt}
+\sloppy
+\emergencystretch=2em
+\clubpenalty=10000
+% настройка документа hyphenation = false: без переносов слов (и без разрыва после дефиса);
+% строка добирается растяжением пробелов, \emergencystretch — против выхода за поле
+\newcommand{\ldenohyphenation}{\hyphenpenalty=10000 \exhyphenpenalty=10000 \emergencystretch=4em
+  \AtBeginDocument{\hyphenpenalty=10000 \exhyphenpenalty=10000}}
+\widowpenalty=10000
+
+% --- п. 6.3.1: номер страницы внизу по центру, титул без номера
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\normalfont\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\normalfont\thepage}\renewcommand{\headrulewidth}{0pt}}
+
+\usepackage{graphicx}
+\usepackage{array,longtable,multirow}
+\renewcommand{\arraystretch}{1.15}
+% Отступы вокруг формул, заголовков, рисунков, таблиц, листингов — одна длина (настройка
+% документа block_spacing: none — нет, как в ГОСТ/методичке; line — одна строка).
+\newlength{\ldeblockskip}
+\setlength{\ldeblockskip}{0pt}
+% Блоки (формула, рисунок, таблица) стоят «как следующая строка»: зазор до и после равен обычному
+% зазору между строками текста. Поправки подобраны замером (golden/gaps.py) и выражены через
+% межстрочный интервал; \ldeblockskip — добавка по настройке (none: 0, line: ещё одна строка).
+\newlength{\ldeformabove}\newlength{\ldeformbelow}\newlength{\ldefigabove}\newlength{\ldecapgap}
+\newcommand{\ldeapplyskips}{%
+  \setlength{\ldeformabove}{\dimexpr 0.32\baselineskip+\ldeblockskip\relax}%
+  \setlength{\ldeformbelow}{\dimexpr 0.34\baselineskip+\ldeblockskip\relax}%
+  \setlength{\ldefigabove}{\dimexpr 0.34\baselineskip+\ldeblockskip\relax}%
+  \setlength{\ldecapgap}{-0.15\baselineskip}%
+  \setlength{\LTpre}{\ldefigabove}\setlength{\LTpost}{\ldeblockskip}%
+  \setlength{\abovedisplayskip}{\ldeformabove}\setlength{\belowdisplayskip}{\ldeformbelow}%
+  \setlength{\abovedisplayshortskip}{\ldeformabove}\setlength{\belowdisplayshortskip}{\ldeformbelow}%
+  \setlength{\intextsep}{0pt}\setlength{\floatsep}{0pt}\setlength{\textfloatsep}{0pt}}
+\usepackage{float}
+
+% --- п. 6.8.1: формулы — отдельной строкой; отбивки — \ldeblockskip (выше)
+
+% --- п. 6.4.6: перечисления с абзацного отступа, тире
+\usepackage{enumitem}
+\setlist[itemize]{label=--,leftmargin=*,labelindent=\parindent,itemindent=0pt,
+                  topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt}
+\setlist[enumerate]{leftmargin=*,labelindent=\parindent,topsep=0pt,itemsep=0pt,parsep=0pt,partopsep=0pt}
+
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\small,breaklines=true,columns=fullflexible,keepspaces=true,
+        showstringspaces=false,frame=single,framesep=4pt,xleftmargin=0.5cm,xrightmargin=0.5cm,
+        aboveskip=\ldeblockskip,belowskip=\ldeblockskip,extendedchars=true}
+
+\usepackage{xcolor}
+\usepackage[hidelinks,unicode]{hyperref}
+\usepackage{microtype}
+
+% ------------------------------------------------------------ LDE: маркеры ----
+% Карта «место на странице → элемент» для Studio: \ldemark{N} пишет в .lpos
+% «N страница x y» в момент вывода страницы (точные координаты, без SyncTeX).
+\newwrite\ldeposfile
+\immediate\openout\ldeposfile=\jobname.lpos
+\newcommand{\ldemark}[1]{\ifvmode\leavevmode\fi\pdfsavepos
+  \write\ldeposfile{#1 \the\ReadonlyShipoutCounter\space\the\pdflastxpos\space\the\pdflastypos}}
+\newcommand{\ldemarkv}[1]{\pdfsavepos
+  \write\ldeposfile{#1 \the\ReadonlyShipoutCounter\space\the\pdflastxpos\space\the\pdflastypos}}
+
+% ---------------------------------------------------------- LDE: заголовки ----
+% п. 6.2: разделы — с абзацного отступа, полужирным, с новой страницы;
+% структурные элементы — по центру, прописными; приложения — п. 6.14.
+\makeatletter
+\newcommand{\ldesection}[3]{% {номер}{заголовок}{маркер}
+  \clearpage\phantomsection
+  \addcontentsline{toc}{section}{\protect\numberline{#1}#2}%
+  \ldeheadbefore{\par\ldeheadalign\noindent\hangindent=\parindent\hspace*{\parindent}\ldeheadfont\ldemark{#3}#1\quad #2\par}%
+  \nobreak\vspace{\ldeblockskip}\@afterheading}
+\newcommand{\ldesubsection}[3]{%
+  \par\addvspace{\ldeblockskip}\phantomsection
+  \addcontentsline{toc}{subsection}{\protect\numberline{#1}#2}%
+  \ldeheadbefore{\ldeheadalign\noindent\hspace*{\parindent}\ldeheadfont\ldemark{#3}#1\quad #2\par}%
+  \nobreak\vspace{\ldeblockskip}\nobreak\@afterheading}
+\newcommand{\ldesubsubsection}[3]{%
+  \par\addvspace{\ldeblockskip}\phantomsection
+  \addcontentsline{toc}{subsubsection}{\protect\numberline{#1}#2}%
+  \ldeheadbefore{\ldeheadalign\noindent\hspace*{\parindent}\ldeheadfont\ldemark{#3}#1\quad #2\par}%
+  \nobreak\vspace{\ldeblockskip}\nobreak\@afterheading}
+\newcommand{\ldeunnumbered}[3]{% {уровень}{заголовок}{маркер}
+  \ifnum#1=1 \clearpage\fi\par\addvspace{\ldeblockskip}\phantomsection
+  \ifnum#1=1 \addcontentsline{toc}{section}{#2}\else\addcontentsline{toc}{subsection}{#2}\fi
+  \ldeheadbefore{\ldeheadalign\noindent\hspace*{\parindent}\ldeheadfont\ldemark{#3}#2\par}%
+  \nobreak\vspace{\ldeblockskip}\nobreak\@afterheading}
+\newcommand{\ldestructural}[2]{% {ЗАГОЛОВОК}{маркер} — по центру, прописными
+  \clearpage\phantomsection
+  \addcontentsline{toc}{section}{#1}%
+  \ldeheadbefore{\ldestructalign\ldeheadfont\ifx\relax#2\relax\else\ldemark{#2}\fi #1\par}%
+  \nobreak\vspace{\ldeblockskip}\nobreak\@afterheading}
+\newcommand{\ldeappendix}[4]{% {буква}{заголовок}{маркер}{статус (обязательное…)}
+  \clearpage\phantomsection
+  \addcontentsline{toc}{section}{Приложение #1 #2}%
+  \ldeheadbefore{\ldestructalign\ldeheadfont\ldemark{#3}ПРИЛОЖЕНИЕ #1\par}%
+  \ifx\relax#4\relax\else{\ldestructalign(#4)\par}\fi
+  {\ldestructalign\ldeheadfont #2\par}%
+  \nobreak\vspace{\ldeblockskip}\nobreak\@afterheading}
+% п. 6.13 (содержание): отточие, номера страниц справа
+\renewcommand{\@pnumwidth}{2.5em}
+\renewcommand*\l@section{\@dottedtocline{1}{0em}{1.8em}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{1.8em}{2.6em}}
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{4.4em}{3.4em}}
+\newcommand{\ldetoc}[2]{\clearpage{\centering\bfseries\ifx\relax#2\relax\else\ldemark{#2}\fi #1\par}\vspace{\ldeblockskip}\@starttoc{toc}}
+\makeatother
+
+% ----------------------------------------------------- LDE: объекты и вставки ----
+\newcommand{\ldefigalign}{\centering}
+\newcommand{\ldefigcaption}[2]{\par\vspace{\ldecapgap}{\ldefigalign\hyphenpenalty=10000 Рисунок #1\ \textemdash\ #2\par}}
+\newcommand{\ldesubcaption}[1]{\par{\ldefigalign #1\par}}
+\newcommand{\ldestale}[1]{\par{\centering\color{red}\small\bfseries #1\par}}
+\newcommand{\ldemissing}[1]{\fbox{\parbox[c][4cm][c]{0.6\linewidth}{\centering\color{red}#1}}}
+\newcommand{\ldestaleval}[1]{\textcolor{red}{#1}}
+\newcommand{\ldeunknown}[1]{\textcolor{red}{\textbf{#1}}}
+% Пояснения к формуле (ГОСТ 7.32 п. 6.8.2): «где» без абзацного отступа; обозначения в следующих
+% строках пояснения стоят точно под обозначением первой строки (отступ = ширине «где »).
+\newlength{\ldegdewidth}
+\AtBeginDocument{\settowidth{\ldegdewidth}{где\ }}
+\newcommand{\ldegde}{\makebox[\ldegdewidth][l]{где}}
+\newcommand{\ldegdeindent}{\hspace*{\ldegdewidth}}
+
+% \normalsize в классе переустанавливает отбивки формул — применяем свои после него
+\usepackage{etoolbox}
+\appto\normalsize{\ldeapplyskips}
+\AtBeginDocument{\ldeapplyskips}

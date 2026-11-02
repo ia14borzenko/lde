@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Регистрация — LDE</title><link rel="stylesheet" href="/static/app.css">
+<script src="/static/crypto.js"></script></head>
+<body>
+<main class="card" id="join">
+  <h1>Регистрация на сервере LDE</h1>
+  <div id="msg" class="muted">Проверяю приглашение…</div>
+  <form id="f" hidden>
+    <label>Имя для входа (латиница)<input class="inp" id="u" autocomplete="username" required pattern="[a-z0-9][a-z0-9_.\-]{1,31}"></label>
+    <label>Пароль (не короче 10 знаков)<input class="inp" id="p" type="password" autocomplete="new-password" required minlength="10"></label>
+    <label>Пароль ещё раз<input class="inp" id="p2" type="password" autocomplete="new-password" required></label>
+    <p class="muted small">Пароль не уходит на сервер: из него на этом устройстве выводятся ключ входа и ключ
+    шифрования. <b>Восстановить забытый пароль нельзя</b> — без него ваши зашифрованные данные не открыть.</p>
+    <button class="btn primary" id="go">Зарегистрироваться</button>
+  </form>
+</main>
+<script src="/static/join.js"></script>
+</body>
+</html>

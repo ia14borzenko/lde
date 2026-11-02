@@ -1,0 +1,8 @@
+{$LDE_DOMAIN} {
+	encode gzip
+	request_body {
+		max_size 300MB
+	}
+	reverse_proxy lde-server:8790
+	# журнал запросов не ведётся: в путях бывают токены ссылок
+}

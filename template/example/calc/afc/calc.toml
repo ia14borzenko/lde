@@ -1,0 +1,15 @@
+# Расчёт АЧХ RC-фильтра. Параметры правятся здесь или в Studio; после правки
+# `lde status` покажет, что устарело, `lde update` пересчитает.
+title = "АЧХ RC-фильтра"
+script = "script.py"
+timeout = 120
+outputs = ["afc.png", "values.json"]
+
+[params]
+R = { value = 1000.0, unit = "Ом", title = "Сопротивление" }
+C = { value = 1.0e-7, unit = "Ф", title = "Ёмкость" }
+f_max = { value = 100000.0, unit = "Гц", title = "Верхняя частота графика" }
+
+[values]
+f_c = { unit = "Гц", title = "Частота среза" }
+K_at_fc = { digits = 3, title = "Коэффициент передачи на частоте среза" }

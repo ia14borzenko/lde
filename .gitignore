@@ -1,0 +1,77 @@
+# LDE .gitignore
+
+# --- тулчейн / локальные установки (не коммитим) ---
+toolchain/venv/
+toolchain/local.env
+# секреты и настройки развёртывания
+.env
+*.env.local
+lde-server/.env
+toolchain/versions.lock
+toolchain/downloads/
+toolchain/.cache/
+convert/reference.docx
+convert/reference-*.docx
+template/gost-report/vendor/
+
+# --- артефакты сборки LaTeX (корень репозитория и сгенерированные проекты) ---
+/out/
+/build/
+template/gost-report/out/
+template/gost-report/logs/
+demo/*/out/
+demo/*/logs/
+demo/*/.git/
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.toc
+*.lof
+*.lot
+*.synctex.gz
+*.xdv
+*.idx
+*.ind
+*.ilg
+*.nav
+*.snm
+*.vrb
+*.pdf
+*.docx
+
+# --- python ---
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# --- логи и временное ---
+/logs/
+*.tmp
+
+# --- эксперимент по формулам: генерируемое игнорируем, доказательства храним ---
+experiments/formulas/project/
+experiments/formulas/out/*
+!experiments/formulas/out/matrix.json
+!experiments/formulas/out/matrix.md
+!experiments/formulas/out/screenshot-omml.png
+!experiments/formulas/out/screenshot-svg.png
+
+# --- демо-проект генерируется `make demo` ---
+demo/gost-demo/
+
+# --- IDE / OS ---
+.DS_Store
+.vscode/launch.json
+docs/golden/compare/original.pdf
+
+# --- v0.1: демо-каталог больше не используется ---
+/demo/
+# --- кэш Python ---
+**/__pycache__/

@@ -1,0 +1,23 @@
+# Сервер LDE за уже работающим nginx/обратным прокси (HTTPS делает он).
+#   cp env.example .env   # задать LDE_PUBLIC_URL
+#   docker compose -f lde-server/compose.behind-proxy.yaml --env-file lde-server/.env up -d --build
+name: lde
+services:
+  lde-server:
+    build: { context: .., dockerfile: lde-server/Dockerfile }
+    image: lde-server:local
+    restart: unless-stopped
+    environment:
+      LDE_PUBLIC_URL: ${LDE_PUBLIC_URL:?задайте LDE_PUBLIC_URL в .env}
+      LDE_TRUST_PROXY: "1"
+    ports: ["127.0.0.1:${LDE_PORT:-8790}:8790"]
+    volumes: ["lde-data:/data"]
+    read_only: true
+    tmpfs: ["/tmp:size=64m"]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 200
+volumes:
+  lde-data: {}

@@ -1,0 +1,23 @@
+# Настройки документа. Правятся в LDE Studio (шестерёнка) или здесь.
+
+[document]
+name = "report"            # out/report.pdf, out/report.docx
+profile = "gost-7.32"      # оформление: gost-7.32 (отчёт о НИР) | guap
+numbering = "continuous"   # нумерация рисунков/таблиц/формул: continuous (сквозная) | section (по разделам)
+block_spacing = "none"     # отступы до/после заголовков, формул, рисунков: none (нет) | line (одна строка)
+hyphenation = true         # переносы слов: false — текст без переносов (PDF и DOCX)
+toc = true                 # СОДЕРЖАНИЕ
+abbreviations = true       # перечень сокращений (abbreviations.toml)
+symbols = false            # перечень обозначений (quantities.toml)
+bibliography = true        # список использованных источников (refs.bib)
+# files = ["text/01-vvedenie.md", …]   # порядок разделов; по умолчанию — text/*.md по имени
+
+[title]                    # реквизиты титульного листа
+org = "Организация-исполнитель"
+doctype = "Отчёт о научно-исследовательской работе"
+topic = "Исследование RC-фильтра нижних частот"
+worktype = "заключительный"
+supervisor = "канд. техн. наук П. П. Петров"
+author = "И. И. Иванов"
+city = "Москва"
+year = "2026"

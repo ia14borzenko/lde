@@ -1,0 +1,33 @@
+# Сервер LDE на чистой машине: сервер + Caddy (автоматический HTTPS Let's Encrypt).
+#   cp env.example .env   # LDE_DOMAIN=lde.<ip-через-дефисы>.sslip.io  LDE_PUBLIC_URL=https://<тот же домен>
+#   docker compose -f lde-server/compose.yaml --env-file lde-server/.env up -d --build
+name: lde
+services:
+  lde-server:
+    build: { context: .., dockerfile: lde-server/Dockerfile }
+    image: lde-server:local
+    restart: unless-stopped
+    environment:
+      LDE_PUBLIC_URL: ${LDE_PUBLIC_URL:?задайте LDE_PUBLIC_URL в .env}
+      LDE_TRUST_PROXY: "1"
+    expose: ["8790"]
+    volumes: ["lde-data:/data"]
+    read_only: true
+    tmpfs: ["/tmp:size=64m"]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 200
+  caddy:
+    image: caddy:2.10-alpine
+    restart: unless-stopped
+    environment:
+      LDE_DOMAIN: ${LDE_DOMAIN:?задайте LDE_DOMAIN в .env}
+    ports: ["80:80", "443:443"]
+    volumes: ["./Caddyfile:/etc/caddy/Caddyfile:ro", "caddy-data:/data", "caddy-config:/config"]
+    depends_on: [lde-server]
+volumes:
+  lde-data: {}
+  caddy-data: {}
+  caddy-config: {}
